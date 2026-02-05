@@ -3,180 +3,300 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wedding Invitation Card</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap"
-        rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Bhabani Sankar ❤️ Tulasi - Wedding Invitation</title>
 
+    <!-- Meta tags -->
+    <meta name="description"
+        content="Join us in celebrating the sacred union of Bhabani Sankar Pattnaik and Tulasi Mohanty">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Three.js for 3D background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
         :root {
             --gold-primary: #D4AF37;
             --gold-secondary: #FFD700;
             --gold-light: #F4E4A6;
-            --rose-pink: #E8A2A2;
-            --soft-pink: #FFE6E9;
-            --deep-red: #B22222;
-            --cream-white: #FFF8F0;
-            --text-dark: #5D4037;
-            --border-gold: rgba(212, 175, 55, 0.3);
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --shadow-hard: 0 20px 50px rgba(0, 0, 0, 0.15);
+            --rose-gold: #B76E79;
+            --soft-rose: #FFE6E9;
+            --deep-burgundy: #800020;
+            --soft-cream: #FFF8F0;
+            --dark-charcoal: #2C2C2C;
+            --light-charcoal: #4A4A4A;
+            --green-leaf: #2E8B57;
+            --flower-pink: #FF69B4;
+            --flower-purple: #9370DB;
+            --flower-yellow: #FFD700;
+            --flower-white: #FFFFFF;
+            --transition-slow: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            --transition-fast: all 0.3s ease;
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #F4E4A6 100%);
+            --gradient-rose: linear-gradient(135deg, #FFE6E9 0%, #FFF8F0 50%, #FFFFFF 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--cream-white) 0%, #f9f3e9 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--dark-charcoal) 0%, #1a1a1a 100%);
+            color: var(--soft-cream);
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
         }
 
-        /* Floating Flowers Background */
-        .floral-background {
+        /* 3D Background Canvas */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+        }
+
+        /* Flower Rain Container */
+        .flower-rain {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
         }
 
-        .floral-bg-element {
+        .falling-flower {
             position: absolute;
-            opacity: 0.1;
-            font-size: 150px;
-            color: var(--rose-pink);
-            transform: rotate(var(--rotation));
+            font-size: 24px;
+            opacity: 0;
+            z-index: -2;
         }
 
-        /* Wedding Card Container */
-        .card-container {
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .card-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        /* Wedding Card */
-        .wedding-card {
-            background: linear-gradient(145deg, #ffffff 0%, var(--cream-white) 100%);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: var(--shadow-hard);
-            position: relative;
-            border: 2px solid var(--border-gold);
-            transition: transform 0.5s ease;
-        }
-
-        .wedding-card:hover {
-            transform: translateY(-10px);
-        }
-
-        /* Card Header with Floral Design */
-        .card-header {
-            background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-secondary) 100%);
-            padding: 40px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-header::before {
-            content: '';
-            position: absolute;
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
             height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-            opacity: 0.2;
-            z-index: 0;
+            background: var(--dark-charcoal);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
         }
 
-        .header-floral-left,
-        .header-floral-right {
-            position: absolute;
+        .loading-ring {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid transparent;
+            border-top: 5px solid var(--gold-primary);
+            border-right: 5px solid var(--rose-gold);
+            border-bottom: 5px solid var(--flower-pink);
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--gold-light);
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        /* Floating Particles Background */
+        .particles-container {
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            width: 150px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-primary);
+            border-radius: 50%;
             opacity: 0.3;
         }
 
-        .header-floral-left {
-            left: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23FFFFFF' d='M50,20 C60,10 80,15 80,30 C80,45 60,50 50,40 C40,50 20,45 20,30 C20,15 40,10 50,20 Z'/%3E%3Ccircle fill='%23FFFFFF' cx='50' cy='30' r='5'/%3E%3C/svg%3E");
-        }
-
-        .header-floral-right {
-            right: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23FFFFFF' d='M50,20 C60,10 80,15 80,30 C80,45 60,50 50,40 C40,50 20,45 20,30 C20,15 40,10 50,20 Z'/%3E%3Ccircle fill='%23FFFFFF' cx='50' cy='30' r='5'/%3E%3C/svg%3E");
-            transform: scaleX(-1);
-        }
-
-        .wedding-title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.5rem;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            letter-spacing: 3px;
-            position: relative;
-            z-index: 1;
-            margin-bottom: 10px;
-        }
-
-        .wedding-subtitle {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 2px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Card Content */
-        .card-content {
-            padding: 50px 40px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        /* Family Section */
-        .family-section {
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            z-index: 1000;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px 10px;
+            border-radius: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-dot.active {
+            background: var(--gold-primary);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--gold-primary);
+        }
+
+        .nav-dot:hover::after {
+            content: attr(data-scene);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark-charcoal);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section with Parallax */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(183, 110, 121, 0.1) 0%, transparent 50%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+            z-index: -1;
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(4rem, 10vw, 7rem);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            color: var(--gold-light);
+            line-height: 1.2;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .ampersand {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(4rem, 8vw, 6rem);
+            color: var(--rose-gold);
+            margin: 0 20px;
+            display: inline-block;
+            text-shadow: 0 0 20px rgba(183, 110, 121, 0.5);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+            padding: 0 20px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--gold-primary);
+            font-size: 2rem;
+            z-index: 10;
+        }
+
+        /* Family Cards Section - Enhanced Design */
+        .family-section {
+            padding: 120px 20px;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            color: var(--deep-red);
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.8rem, 6vw, 4rem);
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 80px;
+            color: var(--gold-light);
             position: relative;
-            padding-bottom: 15px;
+            padding-bottom: 20px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
         }
 
         .section-title::after {
@@ -185,700 +305,2319 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-gold);
+            box-shadow: 0 0 10px var(--gold-primary);
         }
 
-        /* Family Cards */
-        .family-card {
-            background: white;
-            border-radius: 20px;
+        /* Enhanced Card Design with 3D Effect */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            max-width: 1300px;
+            margin: 0 auto;
             padding: 30px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-gold);
-            position: relative;
+            perspective: 1000px;
+        }
+
+        .family-card {
+            background: linear-gradient(145deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+            border-radius: 25px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            transform-style: preserve-3d;
         }
 
         .family-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 0 50px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(212, 175, 55, 0.4);
         }
 
-        .family-card::before {
+        .card-header {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .card-header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--gold-primary), var(--rose-pink));
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
         }
 
-        .floral-corner {
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3vw, 2.5rem);
+            color: white;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-content {
+            padding: 50px 40px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(50, 50, 50, 0.7), rgba(40, 40, 40, 0.9));
+            position: relative;
+        }
+
+        .parent-name {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.2rem, 4vw, 2.8rem);
+            color: var(--gold-light);
+            margin-bottom: 20px;
+            line-height: 1.3;
+            position: relative;
+            display: inline-block;
+            padding: 0 30px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .parent-name::before,
+        .parent-name::after {
+            content: '❀';
             position: absolute;
-            width: 60px;
-            height: 60px;
-            opacity: 0.1;
-            z-index: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8rem;
+            color: var(--flower-pink);
+            opacity: 0.8;
+            animation: rotate 10s linear infinite;
         }
 
-        .floral-corner.tl {
-            top: 10px;
-            left: 10px;
-            transform: rotate(0);
+        .parent-name::before {
+            left: 0;
         }
 
-        .floral-corner.tr {
-            top: 10px;
-            right: 10px;
-            transform: rotate(90deg);
-        }
-
-        .floral-corner.bl {
-            bottom: 10px;
-            left: 10px;
-            transform: rotate(270deg);
-        }
-
-        .floral-corner.br {
-            bottom: 10px;
-            right: 10px;
-            transform: rotate(180deg);
+        .parent-name::after {
+            right: 0;
         }
 
         .parent-role {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: var(--gold-primary);
-            text-align: center;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            margin-bottom: 30px;
+            padding: 15px 25px;
+            background: rgba(212, 175, 55, 0.15);
+            border-radius: 15px;
+            display: inline-block;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(5px);
         }
 
-        .parent-name-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
+        .member-highlight {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 5vw, 3.2rem);
+            color: var(--rose-gold);
+            padding: 25px;
+            margin-top: 30px;
+            border-top: 2px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
             position: relative;
-            z-index: 1;
+            background: rgba(183, 110, 121, 0.1);
+            border-radius: 10px;
+            text-shadow: 0 0 10px rgba(183, 110, 121, 0.3);
         }
 
-        .name-line {
+        .member-highlight::before,
+        .member-highlight::after {
+            content: '✨';
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.7;
+            animation: sparkle 2s infinite;
+        }
+
+        .member-highlight::before {
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .member-highlight::after {
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Flower Decorations */
+        .flower-decoration {
+            position: absolute;
+            z-index: 1;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: float 8s ease-in-out infinite;
+            filter: drop-shadow(0 0 5px currentColor);
+        }
+
+        .flower-1 {
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+            color: var(--flower-pink);
+        }
+
+        .flower-2 {
+            top: 25%;
+            right: 15%;
+            animation-delay: 1s;
+            color: var(--flower-purple);
+        }
+
+        .flower-3 {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 2s;
+            color: var(--flower-yellow);
+        }
+
+        .flower-4 {
+            bottom: 30%;
+            right: 10%;
+            animation-delay: 3s;
+            color: var(--flower-white);
+        }
+
+        /* Couple Section */
+        .couple-section {
+            padding: 150px 20px;
+            text-align: center;
+            position: relative;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            width: 100%;
+            justify-content: center;
+            background: radial-gradient(circle at center, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
         }
 
-        .name-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            text-align: center;
-            line-height: 1.2;
-            margin: 0;
+        .couple-message {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 7vw, 5rem);
+            color: var(--gold-light);
+            margin-bottom: 80px;
             position: relative;
             display: inline-block;
+            padding: 0 50px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
 
-        .name-text::after {
-            content: '';
+        .couple-message::before,
+        .couple-message::after {
+            content: '❤️';
             position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            animation: heartbeat 1.5s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
         }
 
-        .family-card:hover .name-text::after {
-            opacity: 1;
+        .couple-message::before {
+            left: 0;
         }
 
-        .relationship {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            opacity: 0.8;
-            text-align: center;
-            margin-top: 20px;
-            font-style: italic;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-gold);
+        .couple-message::after {
+            right: 0;
         }
 
-        /* Ornamental Divider */
-        .ornamental-divider {
+        .couple-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-top: 60px;
+        }
+
+        .couple-avatar {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-primary), var(--rose-gold));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 30px 0;
+            font-size: 5rem;
+            color: white;
+            box-shadow:
+                0 0 50px rgba(212, 175, 55, 0.5),
+                0 0 100px rgba(212, 175, 55, 0.3),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
             position: relative;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
         }
 
-        .divider-line {
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold-primary), transparent);
-            flex-grow: 1;
+        .couple-avatar:hover {
+            transform: scale(1.05);
+            box-shadow:
+                0 0 70px rgba(212, 175, 55, 0.7),
+                0 0 150px rgba(212, 175, 55, 0.5),
+                inset 0 0 40px rgba(255, 255, 255, 0.3);
         }
 
-        .divider-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--cream-white);
+        .couple-avatar::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--gold-primary), var(--rose-gold), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        .couple-avatar>div {
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, rgba(40, 40, 40, 0.9), rgba(50, 50, 50, 0.9));
+            width: 94%;
+            height: 94%;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gold-primary);
-            font-size: 1.5rem;
-            margin: 0 20px;
-            border: 1px solid var(--border-gold);
-            position: relative;
-            z-index: 1;
+            border: 2px solid rgba(212, 175, 55, 0.3);
         }
 
-        /* Wedding Details */
+        .avatar-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-top: 30px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hearts-container {
+            display: flex;
+            gap: 15px;
+            margin: 60px auto;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 700px;
+        }
+
+        .heart {
+            font-size: 2.5rem;
+            color: var(--rose-gold);
+            animation: pulse 2s infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px rgba(183, 110, 121, 0.5));
+        }
+
+        /* Details Section */
         .details-section {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 248, 240, 0.9) 100%);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: var(--shadow-soft);
-            border: 1px solid var(--border-gold);
+            padding: 120px 20px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9));
+            border-radius: 40px;
+            margin: 60px 20px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .details-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-            z-index: 0;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 30%, rgba(212, 175, 55, 0.05) 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        .detail-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            margin-bottom: 25px;
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
-        .detail-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-
-        .detail-content {
-            flex-grow: 1;
-        }
-
-        .detail-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            color: var(--deep-red);
-            margin-bottom: 8px;
-        }
-
-        .detail-text {
-            font-family: 'Poppins', sans-serif;
-            color: var(--text-dark);
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .highlight {
-            color: var(--gold-primary);
-            font-weight: 600;
-        }
-
-        /* Footer with Flowers */
-        .card-footer {
-            background: linear-gradient(135deg, var(--cream-white) 0%, #f9f3e9 100%);
-            padding: 40px;
+        .detail-card {
+            background: linear-gradient(145deg, rgba(50, 50, 50, 0.8), rgba(40, 40, 40, 0.9));
+            padding: 50px 40px;
+            border-radius: 25px;
             text-align: center;
-            border-top: 1px solid var(--border-gold);
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
 
-        .footer-floral-border {
+        .detail-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+
+        .detail-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 30px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath fill='%23D4AF37' fill-opacity='0.2' d='M0,10 Q25,0 50,10 T100,10 L100,20 L0,20 Z'/%3E%3C/svg%3E");
-            background-repeat: repeat-x;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
         }
 
-        .invitation-text {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: var(--text-dark);
-            line-height: 1.4;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .signature {
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
+        .detail-icon {
+            font-size: 4rem;
             color: var(--gold-primary);
-            margin-top: 30px;
-            display: inline-block;
+            margin-bottom: 30px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .detail-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--gold-light);
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .detail-text {
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .highlight {
+            color: var(--rose-gold);
+            font-weight: 600;
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(183, 110, 121, 0.5);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #000000, #1a1a1a);
+            color: var(--gold-light);
+            padding: 120px 20px 60px;
+            text-align: center;
             position: relative;
+            overflow: hidden;
+            margin-top: 100px;
+            border-top: 3px solid var(--gradient-gold);
         }
 
-        .signature::before {
+        .footer::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: -40px;
-            width: 30px;
-            height: 2px;
-            background: var(--gold-primary);
-            opacity: 0.5;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-gold);
+            box-shadow: 0 0 20px var(--gold-primary);
         }
 
-        .signature::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: -40px;
-            width: 30px;
-            height: 2px;
-            background: var(--gold-primary);
-            opacity: 0.5;
+        .final-message {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 6vw, 4rem);
+            margin-bottom: 60px;
+            line-height: 1.4;
+            color: var(--gold-light);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
 
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .card-content {
-                grid-template-columns: 1fr;
-                gap: 50px;
-            }
-
-            .wedding-title {
-                font-size: 2.8rem;
-            }
-
-            .name-text {
-                font-size: 2.2rem;
-            }
+        .contact-info {
+            margin: 50px 0;
+            padding: 40px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 25px;
+            display: inline-block;
+            max-width: 600px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(10px);
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-
-            .card-header {
-                padding: 30px 20px;
-            }
-
-            .card-content {
-                padding: 40px 25px;
-            }
-
-            .wedding-title {
-                font-size: 2.3rem;
-            }
-
-            .wedding-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .name-text {
-                font-size: 2rem;
-            }
-
-            .family-card,
-            .details-section {
-                padding: 25px;
-            }
-
-            .invitation-text {
-                font-size: 1.8rem;
-            }
-
-            .header-floral-left,
-            .header-floral-right {
-                width: 100px;
-            }
+        .contact-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
         }
 
-        @media (max-width: 576px) {
-            .card-header {
-                padding: 25px 15px;
+        .contact-numbers {
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: linear-gradient(135deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .music-control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            border: none;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .music-control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            .card-content {
-                padding: 30px 20px;
-            }
-
-            .wedding-title {
-                font-size: 2rem;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .name-text {
-                font-size: 1.7rem;
-            }
-
-            .parent-role {
-                font-size: 1rem;
-            }
-
-            .detail-item {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 15px;
-            }
-
-            .invitation-text {
-                font-size: 1.5rem;
-            }
-
-            .signature {
-                font-size: 2rem;
-            }
-
-            .floral-corner {
-                width: 40px;
-                height: 40px;
+            100% {
+                transform: rotate(360deg);
             }
         }
 
-        @media (max-width: 400px) {
-            .wedding-title {
-                font-size: 1.7rem;
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
             }
 
-            .name-text {
-                font-size: 1.5rem;
+            40% {
+                transform: translateX(-50%) translateY(-15px);
             }
 
-            .family-card,
-            .details-section {
-                padding: 20px 15px;
-            }
-
-            .invitation-text {
-                font-size: 1.3rem;
-            }
-        }
-
-        /* Print Styles */
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .wedding-card {
-                box-shadow: none;
-                border: 1px solid #ddd;
-            }
-
-            .floral-background,
-            .floral-corner {
-                display: none;
+            60% {
+                transform: translateX(-50%) translateY(-7px);
             }
         }
 
-        /* Animation for floating flowers */
         @keyframes float {
 
             0%,
             100% {
-                transform: translateY(0) rotate(var(--rotation));
+                transform: translateY(0) rotate(0deg);
             }
 
             50% {
-                transform: translateY(-20px) rotate(var(--rotation));
+                transform: translateY(-25px) rotate(10deg);
+            }
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: translateY(-50%) scale(1);
+            }
+
+            50% {
+                transform: translateY(-50%) scale(1.2);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        @keyframes sparkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(0deg);
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .cards-container {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 40px;
+            }
+
+            .couple-avatar {
+                width: 220px;
+                height: 220px;
+                font-size: 4.5rem;
+            }
+
+            .floating-nav {
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 992px) {
+
+            .family-section,
+            .couple-section,
+            .details-section {
+                padding: 80px 20px;
+            }
+
+            .cards-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                padding: 20px;
+            }
+
+            .couple-container {
+                gap: 40px;
+            }
+
+            .detail-card {
+                padding: 40px 30px;
+            }
+
+            .music-player {
+                right: 20px;
+                bottom: 20px;
+            }
+
+            .floating-nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            html {
+                font-size: 15px;
+            }
+
+            .hero-section {
+                padding: 60px 20px;
+            }
+
+            .couple-names {
+                font-size: clamp(3rem, 8vw, 4.5rem);
+            }
+
+            .section-title {
+                font-size: clamp(2.2rem, 5vw, 3rem);
+                margin-bottom: 60px;
+            }
+
+            .cards-container {
+                padding: 15px;
+            }
+
+            .card-content {
+                padding: 40px 30px;
+            }
+
+            .couple-avatar {
+                width: 180px;
+                height: 180px;
+                font-size: 4rem;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer {
+                padding: 80px 20px 40px;
+            }
+
+            .music-player {
+                position: fixed;
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                justify-content: center;
+                border-radius: 25px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            .main-container {
+                padding: 0 15px;
+            }
+
+            .family-card {
+                border-radius: 20px;
+            }
+
+            .card-header {
+                padding: 30px 20px;
+            }
+
+            .card-content {
+                padding: 30px 20px;
+            }
+
+            .parent-name {
+                font-size: 2rem;
+                padding: 0 20px;
+            }
+
+            .member-highlight {
+                font-size: 2.2rem;
+                padding: 20px;
+            }
+
+            .couple-avatar {
+                width: 150px;
+                height: 150px;
+                font-size: 3.5rem;
+            }
+
+            .avatar-label {
+                font-size: 1.4rem;
+            }
+
+            .detail-card {
+                padding: 30px 20px;
+            }
+
+            .contact-info {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .cards-container {
+                padding: 10px;
+            }
+
+            .family-card {
+                margin: 10px 0;
+            }
+
+            .couple-container {
+                gap: 30px;
+            }
+
+            .couple-avatar {
+                width: 130px;
+                height: 130px;
+                font-size: 3rem;
+            }
+
+            .detail-icon {
+                font-size: 3rem;
+                height: 80px;
+            }
+        }
+
+        /* Orientation-specific styles */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .hero-section {
+                min-height: 120vh;
+            }
+
+            .family-section,
+            .couple-section,
+            .details-section {
+                padding: 60px 20px;
+            }
+
+            .cards-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 
 <body>
-    <!-- Floating Flowers Background -->
-    <div class="floral-background" id="floralBackground"></div>
+    <!-- 3D Background Canvas -->
+    <canvas id="three-bg"></canvas>
 
-    <!-- Wedding Card Container -->
-    <div class="card-container">
-        <div class="card-wrapper">
-            <!-- Main Wedding Card -->
-            <div class="wedding-card">
-                <!-- Card Header -->
-                <div class="card-header">
-                    <div class="header-floral-left"></div>
-                    <div class="header-floral-right"></div>
-                    <h1 class="wedding-title">Wedding Invitation</h1>
-                    <p class="wedding-subtitle">Join us in celebrating our special day</p>
-                </div>
+    <!-- Flower Rain -->
+    <div class="flower-rain" id="flowerRain"></div>
 
-                <!-- Card Content -->
-                <div class="card-content">
-                    <!-- Groom's Family Section -->
-                    <div class="family-section">
-                        <h2 class="section-title">Groom's Family</h2>
+    <!-- Floating Particles -->
+    <div class="particles-container" id="particlesContainer"></div>
 
-                        <!-- Father of the Groom Card -->
-                        <div class="family-card">
-                            <!-- Decorative floral corners -->
-                            <div class="floral-corner tl">❀</div>
-                            <div class="floral-corner tr">❀</div>
-                            <div class="floral-corner bl">❀</div>
-                            <div class="floral-corner br">❀</div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-ring"></div>
+        <div class="loading-text">Loading Eternal Blessings...</div>
+    </div>
 
-                            <h3 class="parent-role">Father of the Groom</h3>
+    <!-- Floating Navigation -->
+    <nav class="floating-nav" id="floatingNav">
+        <div class="nav-dot active" data-scene="Home" data-target="hero"></div>
+        <div class="nav-dot" data-scene="Groom's Family" data-target="groomFamily"></div>
+        <div class="nav-dot" data-scene="Bride's Family" data-target="brideFamily"></div>
+        <div class="nav-dot" data-scene="The Couple" data-target="couple"></div>
+        <div class="nav-dot" data-scene="Details" data-target="details"></div>
+    </nav>
 
-                            <div class="parent-name-container">
-                                <div class="name-line">
-                                    <h2 class="name-text">TARA</h2>
-                                </div>
-                                <div class="name-line">
-                                    <h2 class="name-text">NAIK</h2>
-                                </div>
-                            </div>
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer">
+        <button class="music-control-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+        </button>
+        <div style="font-size: 1rem; color: var(--gold-light);">Wedding Melody</div>
+    </div>
 
-                            <p class="relationship">Proudly presents his son</p>
-                        </div>
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-overlay"></div>
+            <h1 class="couple-names">
+                <span id="groomName">Bhabani Sankar</span>
+                <span class="ampersand">&</span>
+                <span id="brideName">Tulasi</span>
+            </h1>
+            <p class="subtitle">With the blessings of their families...</p>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
 
-                        <!-- Mother of the Groom Card -->
-                        <div class="family-card">
-                            <!-- Decorative floral corners -->
-                            <div class="floral-corner tl">❀</div>
-                            <div class="floral-corner tr">❀</div>
-                            <div class="floral-corner bl">❀</div>
-                            <div class="floral-corner br">❀</div>
-
-                            <h3 class="parent-role">Mother of the Groom</h3>
-
-                            <div class="parent-name-container">
-                                <div class="name-line">
-                                    <h2 class="name-text">R.S.</h2>
-                                </div>
-                                <div class="name-line">
-                                    <h2 class="name-text">NATI</h2>
-                                </div>
-                                <div class="name-line">
-                                    <h2 class="name-text">TTNA</h2>
-                                </div>
-                            </div>
-
-                            <p class="relationship">With love and blessings</p>
-                        </div>
+        <!-- Groom's Family Section -->
+        <section class="family-section" id="groomFamily">
+            <h2 class="section-title">Groom's Family</h2>
+            <div class="cards-container">
+                <!-- Father Card -->
+                <div class="family-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Father of the Groom</h3>
+                        <p class="card-subtitle">With Eternal Love & Blessings</p>
                     </div>
+                    <div class="card-content">
+                        <!-- Flower decorations -->
+                        <div class="flower-decoration flower-1">🌸</div>
+                        <div class="flower-decoration flower-2">🌺</div>
+                        <div class="flower-decoration flower-3">🌼</div>
+                        <div class="flower-decoration flower-4">🌷</div>
 
-                    <!-- Ornamental Divider -->
-                    <div class="ornamental-divider">
-                        <div class="divider-line"></div>
-                        <div class="divider-icon">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="divider-line"></div>
-                    </div>
-
-                    <!-- Wedding Details Section -->
-                    <div class="details-section">
-                        <h2 class="section-title">Wedding Details</h2>
-
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div class="detail-content">
-                                <h3 class="detail-title">Date & Time</h3>
-                                <p class="detail-text">
-                                    <span class="highlight">20th February 2026</span><br>
-                                    <span class="highlight">12:00 PM</span> onwards
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="detail-content">
-                                <h3 class="detail-title">Venue</h3>
-                                <p class="detail-text">
-                                    Chandapur near Kanisi Hatta<br>
-                                    Berhampur, Odisha
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-glass-cheers"></i>
-                            </div>
-                            <div class="detail-content">
-                                <h3 class="detail-title">Reception</h3>
-                                <p class="detail-text">
-                                    <span class="highlight">22nd February 2026</span><br>
-                                    1:00 PM onwards
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="detail-item">
-                            <div class="detail-icon">
-                                <i class="fas fa-hands-praying"></i>
-                            </div>
-                            <div class="detail-content">
-                                <h3 class="detail-title">Blessings</h3>
-                                <p class="detail-text">
-                                    Your presence will make our celebration complete.<br>
-                                    We look forward to welcoming you.
-                                </p>
-                            </div>
-                        </div>
+                        <h4 class="parent-name">TARA NAIK</h4>
+                        <p class="parent-role">Father of the Groom</p>
+                        <div class="member-highlight">BHABANI SANKAR PATTNAIK</div>
                     </div>
                 </div>
 
-                <!-- Card Footer -->
-                <div class="card-footer">
-                    <div class="footer-floral-border"></div>
-                    <p class="invitation-text">
-                        Together with their families<br>
-                        request the pleasure of your company<br>
-                        on their wedding day
-                    </p>
-                    <div class="signature">
-                        Bhabani & Tulasi
+                <!-- Mother Card -->
+                <div class="family-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Mother of the Groom</h3>
+                        <p class="card-subtitle">With Eternal Love & Blessings</p>
+                    </div>
+                    <div class="card-content">
+                        <!-- Flower decorations -->
+                        <div class="flower-decoration flower-1">🌹</div>
+                        <div class="flower-decoration flower-2">💐</div>
+                        <div class="flower-decoration flower-3">🌸</div>
+                        <div class="flower-decoration flower-4">🌺</div>
+
+                        <h4 class="parent-name">RS. NATI TTNA</h4>
+                        <p class="parent-role">Mother of the Groom</p>
+                        <div class="member-highlight">BHABANI SANKAR PATTNAIK</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <script>
-        // Create floating flower background elements
-        function createFloralBackground() {
-            const floralBg = document.getElementById('floralBackground');
-            const flowerTypes = ['❀', '🌸', '💮', '🏵️', '🌺', '🌼', '🌻', '🥀', '🌹'];
+        <!-- Bride's Family Section -->
+        <section class="family-section" id="brideFamily">
+            <h2 class="section-title">Bride's Family</h2>
+            <div class="cards-container">
+                <!-- Father Card -->
+                <div class="family-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Father of the Bride</h3>
+                        <p class="card-subtitle">With Eternal Love & Blessings</p>
+                    </div>
+                    <div class="card-content">
+                        <!-- Flower decorations -->
+                        <div class="flower-decoration flower-1">🌼</div>
+                        <div class="flower-decoration flower-2">🌷</div>
+                        <div class="flower-decoration flower-3">🌹</div>
+                        <div class="flower-decoration flower-4">💐</div>
 
-            for (let i = 0; i < 25; i++) {
-                const flower = document.createElement('div');
-                flower.className = 'floral-bg-element';
-                flower.innerHTML = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+                        <h4 class="parent-name">Mr. Dandapani Mohanty</h4>
+                        <p class="parent-role">Father of the Bride</p>
+                        <div class="member-highlight">TULASI MOHANTY</div>
+                    </div>
+                </div>
 
-                // Random position
-                flower.style.left = Math.random() * 100 + '%';
-                flower.style.top = Math.random() * 100 + '%';
+                <!-- Mother Card -->
+                <div class="family-card">
+                    <div class="card-header">
+                        <h3 class="card-title">Mother of the Bride</h3>
+                        <p class="card-subtitle">With Eternal Love & Blessings</p>
+                    </div>
+                    <div class="card-content">
+                        <!-- Flower decorations -->
+                        <div class="flower-decoration flower-1">🌸</div>
+                        <div class="flower-decoration flower-2">🌺</div>
+                        <div class="flower-decoration flower-3">🌼</div>
+                        <div class="flower-decoration flower-4">🌷</div>
 
-                // Random size
-                const size = Math.random() * 80 + 40;
-                flower.style.fontSize = size + 'px';
+                        <h4 class="parent-name">Mrs. Golapi Mohanty</h4>
+                        <p class="parent-role">Mother of the Bride</p>
+                        <div class="member-highlight">TULASI MOHANTY</div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                // Random rotation
-                const rotation = Math.random() * 360;
-                flower.style.setProperty('--rotation', rotation + 'deg');
+        <!-- Couple Section -->
+        <!-- Couple Section -->
+        <section class="couple-section" id="couple">
+            <h2 class="couple-message">Two Hearts ❤️ One Forever</h2>
 
-                // Random color with gold/rose variations
-                const colors = ['#D4AF37', '#FFD700', '#E8A2A2', '#B76E79', '#F4E4A6'];
-                flower.style.color = colors[Math.floor(Math.random() * colors.length)];
+            <!-- Enhanced Hearts Bridge -->
+            <div class="hearts-bridge">
+                <div class="heart" style="animation-delay: 0s">❤️</div>
+                <div class="heart" style="animation-delay: 0.2s">💖</div>
+                <div class="heart" style="animation-delay: 0.4s">💕</div>
+                <div class="heart" style="animation-delay: 0.6s">💗</div>
+                <div class="heart" style="animation-delay: 0.8s">💓</div>
+                <div class="heart" style="animation-delay: 1s">💞</div>
+                <div class="heart" style="animation-delay: 1.2s">💘</div>
+                <div class="heart" style="animation-delay: 1.4s">💝</div>
+            </div>
 
-                // Random opacity
-                flower.style.opacity = Math.random() * 0.15 + 0.05;
+            <div class="couple-container">
+                <!-- Groom Side -->
+                <div class="couple-side groom-side">
+                    <div class="couple-avatar-container">
+                        <div class="couple-avatar-glow"></div>
+                        <div class="couple-avatar">
+                            <div class="avatar-inner">
+                                <div class="avatar-emoji">👨‍💼</div>
+                                <div class="avatar-ring"></div>
+                            </div>
+                            <div class="avatar-sparkle" style="top: 20%; left: 30%;"></div>
+                            <div class="avatar-sparkle" style="top: 60%; right: 20%;"></div>
+                            <div class="avatar-sparkle" style="bottom: 30%; left: 40%;"></div>
+                        </div>
+                        <div class="avatar-ornament top-left">🌸</div>
+                        <div class="avatar-ornament top-right">✨</div>
+                        <div class="avatar-ornament bottom-left">🌟</div>
+                        <div class="avatar-ornament bottom-right">🌺</div>
+                    </div>
+                    <div class="avatar-label">
+                        <span class="label-text">Bhabani Sankar</span>
+                        <span class="label-subtitle">The Groom</span>
+                    </div>
+                    <div class="couple-flower-petal" style="left: 10%; animation-delay: 0s;">🌸</div>
+                    <div class="couple-flower-petal" style="right: 15%; animation-delay: 0.5s;">🌺</div>
+                </div>
 
-                // Floating animation
-                const duration = Math.random() * 20 + 20;
-                const delay = Math.random() * 5;
-                flower.style.animation = `float ${duration}s infinite ease-in-out`;
-                flower.style.animationDelay = delay + 's';
+                <!-- Connecting Heart Center -->
+                <div class="couple-center">
+                    <div class="center-heart">
+                        <div class="heart-pulse"></div>
+                        <div class="heart-core">💑</div>
+                    </div>
+                    <div class="connection-line"></div>
+                </div>
 
-                floralBg.appendChild(flower);
+                <!-- Bride Side -->
+                <div class="couple-side bride-side">
+                    <div class="couple-avatar-container">
+                        <div class="couple-avatar-glow"></div>
+                        <div class="couple-avatar">
+                            <div class="avatar-inner">
+                                <div class="avatar-emoji">👰‍♀️</div>
+                                <div class="avatar-ring"></div>
+                            </div>
+                            <div class="avatar-sparkle" style="top: 30%; left: 20%;"></div>
+                            <div class="avatar-sparkle" style="top: 70%; right: 30%;"></div>
+                            <div class="avatar-sparkle" style="bottom: 20%; left: 60%;"></div>
+                        </div>
+                        <div class="avatar-ornament top-left">💫</div>
+                        <div class="avatar-ornament top-right">🌷</div>
+                        <div class="avatar-ornament bottom-left">🌼</div>
+                        <div class="avatar-ornament bottom-right">⭐</div>
+                    </div>
+                    <div class="avatar-label">
+                        <span class="label-text">Tulasi</span>
+                        <span class="label-subtitle">The Bride</span>
+                    </div>
+                    <div class="couple-flower-petal" style="left: 20%; animation-delay: 0.3s;">🌼</div>
+                    <div class="couple-flower-petal" style="right: 10%; animation-delay: 0.8s;">🌷</div>
+                </div>
+            </div>
+
+            <!-- Floating Petals around couple -->
+            <div class="couple-floating-petals">
+                <div class="floating-petal" style="left: 5%; animation-delay: 0s;">🌸</div>
+                <div class="floating-petal" style="left: 15%; animation-delay: 1s;">🌺</div>
+                <div class="floating-petal" style="left: 25%; animation-delay: 2s;">🌼</div>
+                <div class="floating-petal" style="right: 5%; animation-delay: 0.5s;">🌷</div>
+                <div class="floating-petal" style="right: 15%; animation-delay: 1.5s;">🌹</div>
+                <div class="floating-petal" style="right: 25%; animation-delay: 2.5s;">💐</div>
+            </div>
+        </section>
+
+        <style>
+            /* Couple Section Styles */
+            .couple-section {
+                padding: 120px 20px;
+                text-align: center;
+                position: relative;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: radial-gradient(circle at center, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.9));
+                overflow: hidden;
             }
-        }
 
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function () {
-            createFloralBackground();
+            .couple-message {
+                font-family: 'Great Vibes', cursive;
+                font-size: clamp(3.5rem, 7vw, 5rem);
+                color: var(--gold-light);
+                margin-bottom: 60px;
+                position: relative;
+                display: inline-block;
+                padding: 0 50px;
+                text-shadow:
+                    0 0 30px rgba(212, 175, 55, 0.5),
+                    0 0 60px rgba(212, 175, 55, 0.3);
+                z-index: 2;
+            }
 
-            // Add hover effect to family cards
-            const familyCards = document.querySelectorAll('.family-card');
-            familyCards.forEach(card => {
-                card.addEventListener('mouseenter', function () {
-                    const corners = this.querySelectorAll('.floral-corner');
-                    corners.forEach(corner => {
-                        corner.style.opacity = '0.3';
-                        corner.style.transform = corner.style.transform + ' scale(1.2)';
+            .couple-message::before,
+            .couple-message::after {
+                content: '💖';
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 3.5rem;
+                animation: heartbeat 1.5s infinite;
+                filter: drop-shadow(0 0 15px rgba(255, 0, 100, 0.7));
+                z-index: 1;
+            }
+
+            .couple-message::before {
+                left: 0;
+            }
+
+            .couple-message::after {
+                right: 0;
+            }
+
+            /* Hearts Bridge */
+            .hearts-bridge {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin: 40px auto 60px;
+                flex-wrap: wrap;
+                max-width: 800px;
+                position: relative;
+                z-index: 2;
+            }
+
+            .heart {
+                font-size: 2.8rem;
+                animation: floatHeart 3s infinite ease-in-out;
+                display: inline-block;
+                filter:
+                    drop-shadow(0 0 10px rgba(255, 0, 100, 0.6)) drop-shadow(0 0 20px rgba(255, 100, 200, 0.4));
+                transition: transform 0.3s ease;
+            }
+
+            .heart:hover {
+                transform: scale(1.3);
+            }
+
+            /* Couple Container */
+            .couple-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+                margin-top: 40px;
+                position: relative;
+                z-index: 2;
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .couple-side {
+                flex: 1;
+                min-width: 300px;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            /* Avatar Container */
+            .couple-avatar-container {
+                position: relative;
+                width: 280px;
+                height: 280px;
+                margin-bottom: 30px;
+            }
+
+            .couple-avatar-glow {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 120%;
+                height: 120%;
+                background: radial-gradient(circle, var(--gold-primary) 0%, transparent 70%);
+                opacity: 0.3;
+                filter: blur(20px);
+                z-index: 1;
+                animation: pulseGlow 3s infinite alternate;
+            }
+
+            .groom-side .couple-avatar-glow {
+                background: radial-gradient(circle, var(--gold-primary) 0%, transparent 70%);
+            }
+
+            .bride-side .couple-avatar-glow {
+                background: radial-gradient(circle, var(--rose-gold) 0%, transparent 70%);
+            }
+
+            .couple-avatar {
+                position: relative;
+                width: 250px;
+                height: 250px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--gold-primary), var(--rose-gold));
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow:
+                    0 0 60px rgba(212, 175, 55, 0.6),
+                    0 0 120px rgba(212, 175, 55, 0.4),
+                    inset 0 0 40px rgba(255, 255, 255, 0.2);
+                border: 4px solid rgba(255, 255, 255, 0.1);
+                z-index: 2;
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                overflow: hidden;
+            }
+
+            .couple-avatar:hover {
+                transform: scale(1.05) rotate(5deg);
+                box-shadow:
+                    0 0 80px rgba(212, 175, 55, 0.8),
+                    0 0 160px rgba(212, 175, 55, 0.6),
+                    inset 0 0 60px rgba(255, 255, 255, 0.3);
+            }
+
+            .avatar-inner {
+                position: relative;
+                z-index: 3;
+                background: linear-gradient(135deg, rgba(40, 40, 40, 0.95), rgba(60, 60, 60, 0.95));
+                width: 92%;
+                height: 92%;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid rgba(212, 175, 55, 0.4);
+                overflow: hidden;
+            }
+
+            .avatar-emoji {
+                font-size: 6rem;
+                filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+                animation: gentleFloat 4s ease-in-out infinite;
+            }
+
+            .groom-side .avatar-emoji {
+                animation-delay: 0s;
+            }
+
+            .bride-side .avatar-emoji {
+                animation-delay: 0.5s;
+            }
+
+            .avatar-ring {
+                position: absolute;
+                top: -10%;
+                left: -10%;
+                width: 120%;
+                height: 120%;
+                border: 3px solid transparent;
+                border-top-color: var(--gold-primary);
+                border-right-color: var(--rose-gold);
+                border-radius: 50%;
+                animation: rotate 3s linear infinite;
+            }
+
+            .avatar-sparkle {
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                background: white;
+                border-radius: 50%;
+                filter: blur(2px);
+                opacity: 0;
+                animation: sparkle 2s infinite;
+            }
+
+            /* Avatar Ornaments */
+            .avatar-ornament {
+                position: absolute;
+                font-size: 1.8rem;
+                opacity: 0.7;
+                animation: orbit 8s linear infinite;
+                z-index: 1;
+            }
+
+            .top-left {
+                top: 10%;
+                left: 10%;
+                animation-delay: 0s;
+            }
+
+            .top-right {
+                top: 10%;
+                right: 10%;
+                animation-delay: 2s;
+            }
+
+            .bottom-left {
+                bottom: 10%;
+                left: 10%;
+                animation-delay: 4s;
+            }
+
+            .bottom-right {
+                bottom: 10%;
+                right: 10%;
+                animation-delay: 6s;
+            }
+
+            /* Avatar Labels */
+            .avatar-label {
+                margin-top: 20px;
+                text-align: center;
+                position: relative;
+                z-index: 2;
+            }
+
+            .label-text {
+                font-family: 'Cinzel', serif;
+                font-size: 2.5rem;
+                color: var(--gold-light);
+                display: block;
+                margin-bottom: 8px;
+                text-shadow:
+                    0 2px 10px rgba(0, 0, 0, 0.5),
+                    0 0 20px rgba(212, 175, 55, 0.4);
+            }
+
+            .label-subtitle {
+                font-family: 'Playfair Display', serif;
+                font-size: 1.4rem;
+                color: var(--rose-gold);
+                opacity: 0.9;
+                font-style: italic;
+            }
+
+            /* Couple Center */
+            .couple-center {
+                position: relative;
+                width: 200px;
+                height: 200px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .center-heart {
+                position: relative;
+                width: 120px;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .heart-pulse {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                border: 2px solid var(--rose-gold);
+                border-radius: 50%;
+                animation: pulseRing 2s infinite;
+            }
+
+            .heart-core {
+                font-size: 4rem;
+                animation: heartbeat 1.5s infinite;
+                filter: drop-shadow(0 0 20px rgba(255, 0, 100, 0.7));
+            }
+
+            .connection-line {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+                transform: translate(-50%, -50%);
+                z-index: -1;
+            }
+
+            /* Flower Petals */
+            .couple-flower-petal {
+                position: absolute;
+                font-size: 2rem;
+                opacity: 0.6;
+                animation: float 6s ease-in-out infinite;
+                z-index: 1;
+                filter: drop-shadow(0 0 5px currentColor);
+            }
+
+            /* Floating Petals */
+            .couple-floating-petals {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .floating-petal {
+                position: absolute;
+                font-size: 1.8rem;
+                opacity: 0.4;
+                animation: floatDown 15s linear infinite;
+            }
+
+            /* Animations */
+            @keyframes heartbeat {
+
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(1.2);
+                }
+            }
+
+            @keyframes floatHeart {
+
+                0%,
+                100% {
+                    transform: translateY(0) rotate(0deg);
+                }
+
+                50% {
+                    transform: translateY(-20px) rotate(10deg);
+                }
+            }
+
+            @keyframes pulseGlow {
+                0% {
+                    opacity: 0.2;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+
+                100% {
+                    opacity: 0.4;
+                    transform: translate(-50%, -50%) scale(1.1);
+                }
+            }
+
+            @keyframes gentleFloat {
+
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-15px);
+                }
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes sparkle {
+
+                0%,
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+
+                50% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            @keyframes orbit {
+                from {
+                    transform: rotate(0deg) translateX(40px) rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg) translateX(40px) rotate(-360deg);
+                }
+            }
+
+            @keyframes pulseRing {
+                0% {
+                    transform: scale(0.8);
+                    opacity: 0.7;
+                }
+
+                100% {
+                    transform: scale(1.5);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes floatDown {
+                0% {
+                    transform: translateY(-100px) rotate(0deg);
+                    opacity: 0;
+                }
+
+                10% {
+                    opacity: 0.6;
+                }
+
+                90% {
+                    opacity: 0.6;
+                }
+
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes float {
+
+                0%,
+                100% {
+                    transform: translateY(0) rotate(0deg);
+                }
+
+                50% {
+                    transform: translateY(-25px) rotate(15deg);
+                }
+            }
+
+            /* Responsive Styles */
+            @media (max-width: 1200px) {
+                .couple-container {
+                    gap: 30px;
+                }
+
+                .couple-avatar-container {
+                    width: 240px;
+                    height: 240px;
+                }
+
+                .couple-avatar {
+                    width: 220px;
+                    height: 220px;
+                }
+
+                .avatar-emoji {
+                    font-size: 5rem;
+                }
+            }
+
+            @media (max-width: 992px) {
+                .couple-section {
+                    padding: 80px 20px;
+                }
+
+                .couple-container {
+                    flex-direction: column;
+                    gap: 60px;
+                }
+
+                .couple-center {
+                    width: 100%;
+                    height: 100px;
+                }
+
+                .connection-line {
+                    width: 80%;
+                    height: 1px;
+                }
+
+                .center-heart {
+                    transform: rotate(90deg);
+                }
+            }
+
+            @media (max-width: 768px) {
+                .couple-message {
+                    font-size: clamp(2.5rem, 6vw, 3.5rem);
+                    padding: 0 30px;
+                }
+
+                .couple-message::before,
+                .couple-message::after {
+                    font-size: 2.5rem;
+                }
+
+                .couple-avatar-container {
+                    width: 200px;
+                    height: 200px;
+                }
+
+                .couple-avatar {
+                    width: 180px;
+                    height: 180px;
+                }
+
+                .avatar-emoji {
+                    font-size: 4rem;
+                }
+
+                .label-text {
+                    font-size: 2rem;
+                }
+
+                .label-subtitle {
+                    font-size: 1.2rem;
+                }
+
+                .heart {
+                    font-size: 2rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .couple-avatar-container {
+                    width: 160px;
+                    height: 160px;
+                }
+
+                .couple-avatar {
+                    width: 150px;
+                    height: 150px;
+                }
+
+                .avatar-emoji {
+                    font-size: 3.5rem;
+                }
+
+                .avatar-ornament {
+                    font-size: 1.4rem;
+                }
+
+                .center-heart {
+                    width: 80px;
+                    height: 80px;
+                }
+
+                .heart-core {
+                    font-size: 3rem;
+                }
+            }
+
+            @media (max-width: 360px) {
+                .couple-avatar-container {
+                    width: 140px;
+                    height: 140px;
+                }
+
+                .couple-avatar {
+                    width: 130px;
+                    height: 130px;
+                }
+
+                .avatar-emoji {
+                    font-size: 3rem;
+                }
+
+                .label-text {
+                    font-size: 1.8rem;
+                }
+            }
+        </style>
+
+        <script>
+            // Enhanced couple section animations
+            document.addEventListener('DOMContentLoaded', function () {
+                const coupleSection = document.querySelector('.couple-section');
+
+                // Add GSAP animations for the couple section
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Couple message animation
+                gsap.from('.couple-message', {
+                    scrollTrigger: {
+                        trigger: coupleSection,
+                        start: "top 80%",
+                        end: "top 50%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 1.5,
+                    y: 50,
+                    opacity: 0,
+                    ease: "power3.out"
+                });
+
+                // Hearts animation
+                gsap.from('.heart', {
+                    scrollTrigger: {
+                        trigger: '.hearts-bridge',
+                        start: "top 90%",
+                        end: "top 60%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 0.8,
+                    scale: 0,
+                    opacity: 0,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)"
+                });
+
+                // Avatar animations
+                gsap.from('.groom-side', {
+                    scrollTrigger: {
+                        trigger: coupleSection,
+                        start: "top 70%",
+                        end: "top 40%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 1.2,
+                    x: -100,
+                    opacity: 0,
+                    ease: "power3.out"
+                });
+
+                gsap.from('.bride-side', {
+                    scrollTrigger: {
+                        trigger: coupleSection,
+                        start: "top 70%",
+                        end: "top 40%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 1.2,
+                    x: 100,
+                    opacity: 0,
+                    ease: "power3.out"
+                });
+
+                // Center heart animation
+                gsap.from('.center-heart', {
+                    scrollTrigger: {
+                        trigger: coupleSection,
+                        start: "top 65%",
+                        end: "top 35%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 1,
+                    scale: 0,
+                    opacity: 0,
+                    ease: "back.out(1.7)"
+                });
+
+                // Make avatars interactive
+                const avatars = document.querySelectorAll('.couple-avatar');
+                avatars.forEach(avatar => {
+                    avatar.addEventListener('mouseenter', () => {
+                        gsap.to(avatar, {
+                            scale: 1.1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
+
+                        // Add extra sparkles on hover
+                        for (let i = 0; i < 5; i++) {
+                            createSparkle(avatar);
+                        }
+                    });
+
+                    avatar.addEventListener('mouseleave', () => {
+                        gsap.to(avatar, {
+                            scale: 1,
+                            duration: 0.3,
+                            ease: "power2.out"
+                        });
                     });
                 });
 
-                card.addEventListener('mouseleave', function () {
-                    const corners = this.querySelectorAll('.floral-corner');
-                    corners.forEach(corner => {
-                        corner.style.opacity = '0.1';
-                        corner.style.transform = corner.style.transform.replace(' scale(1.2)', '');
+                // Create sparkle effect function
+                function createSparkle(container) {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.cssText = `
+                position: absolute;
+                width: 10px;
+                height: 10px;
+                background: white;
+                border-radius: 50%;
+                filter: blur(1px);
+                z-index: 10;
+                pointer-events: none;
+            `;
+
+                    const rect = container.getBoundingClientRect();
+                    const x = Math.random() * rect.width;
+                    const y = Math.random() * rect.height;
+
+                    sparkle.style.left = `${x}px`;
+                    sparkle.style.top = `${y}px`;
+
+                    container.appendChild(sparkle);
+
+                    // Animate sparkle
+                    gsap.to(sparkle, {
+                        x: Math.random() * 40 - 20,
+                        y: Math.random() * 40 - 20,
+                        opacity: 0,
+                        scale: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        onComplete: () => sparkle.remove()
+                    });
+                }
+
+                // Add click event to center heart
+                const centerHeart = document.querySelector('.heart-core');
+                if (centerHeart) {
+                    centerHeart.addEventListener('click', () => {
+                        // Create heart explosion
+                        for (let i = 0; i < 20; i++) {
+                            createFloatingHeart();
+                        }
+                    });
+                }
+
+                // Floating hearts function
+                function createFloatingHeart() {
+                    const heart = document.createElement('div');
+                    heart.innerHTML = '💖';
+                    heart.style.cssText = `
+                position: fixed;
+                font-size: 2rem;
+                z-index: 1000;
+                pointer-events: none;
+                filter: drop-shadow(0 0 10px rgba(255,0,100,0.7));
+            `;
+
+                    const startX = window.innerWidth / 2;
+                    const startY = window.innerHeight / 2;
+
+                    heart.style.left = `${startX}px`;
+                    heart.style.top = `${startY}px`;
+
+                    document.body.appendChild(heart);
+
+                    // Random end position
+                    const endX = Math.random() * window.innerWidth;
+                    const endY = Math.random() * window.innerHeight - 100;
+
+                    gsap.to(heart, {
+                        x: endX - startX,
+                        y: endY - startY,
+                        opacity: 0,
+                        scale: 0,
+                        rotation: Math.random() * 360,
+                        duration: 2,
+                        ease: "power2.out",
+                        onComplete: () => heart.remove()
+                    });
+                }
+
+                // Touch support for mobile
+                if ('ontouchstart' in window) {
+                    avatars.forEach(avatar => {
+                        avatar.addEventListener('touchstart', function (e) {
+                            e.preventDefault();
+                            gsap.to(this, {
+                                scale: 1.1,
+                                duration: 0.2
+                            });
+
+                            // Add vibration on touch (if supported)
+                            if (navigator.vibrate) {
+                                navigator.vibrate(50);
+                            }
+                        });
+
+                        avatar.addEventListener('touchend', function () {
+                            gsap.to(this, {
+                                scale: 1,
+                                duration: 0.2
+                            });
+                        });
+                    });
+                }
+            });
+        </script>
+
+        <!-- Wedding Details Section -->
+        <section class="details-section" id="details">
+            <h2 class="section-title">Wedding Details</h2>
+            <div class="details-grid">
+                <!-- Ceremony Card -->
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-glass-cheers"></i>
+                    </div>
+                    <h3 class="detail-title">Marriage Ceremony</h3>
+                    <p class="detail-text">
+                        <span class="highlight">20 February 2026</span>
+                        <span class="highlight">12 PM Onwards</span><br><br>
+                        Chandapur near Kanisi Hatta<br>
+                        Berhampur, Odisha
+                    </p>
+                </div>
+
+                <!-- Reception Card -->
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="detail-title">Reception</h3>
+                    <p class="detail-text">
+                        <span class="highlight">22 February 2026</span>
+                        <span class="highlight">1 PM Onwards</span><br><br>
+                        Evening celebration with fairy lights<br>
+                        and grand entry gate
+                    </p>
+                </div>
+
+                <!-- Blessings Card -->
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-hands-praying"></i>
+                    </div>
+                    <h3 class="detail-title">Your Blessings</h3>
+                    <p class="detail-text">
+                        Your presence will make our<br>
+                        celebration complete.<br><br>
+                        We look forward to<br>
+                        welcoming you with open hearts.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer" id="footer">
+            <div class="final-message">
+                With love and gratitude,<br>
+                The Pattnaik & Mohanty Families
+            </div>
+
+            <div class="contact-info">
+                <p class="contact-text">For any queries, please contact:</p>
+                <p class="contact-numbers">+91 98765 43210 | +91 98765 43211</p>
+            </div>
+
+            <div
+                style="border-top: 1px solid rgba(212, 175, 55, 0.3); padding-top: 40px; max-width: 800px; margin: 0 auto;">
+                <p style="font-size: 1rem; opacity: 0.7;">
+                    Made with ❤️ for Bhabani Sankar & Tulasi's Eternal Union
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Wedding Music -->
+    <audio id="weddingMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-wedding-day-560.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Initialize when page loads
+        window.addEventListener('load', function () {
+            const loadingScreen = document.getElementById('loadingScreen');
+
+            // Initialize 3D background
+            init3DBackground();
+
+            // Initialize flower rain
+            initFlowerRain();
+
+            // Initialize floating particles
+            initFloatingParticles();
+
+            // Hide loading screen
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    initAnimations();
+                    initMusicPlayer();
+                    initNavigation();
+                }, 1000);
+            }, 2000);
+        });
+
+        // 3D Background with Three.js
+        function init3DBackground() {
+            const canvas = document.getElementById('three-bg');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({
+                canvas,
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create floating particles
+            const particleCount = 2000;
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i + 1] = (Math.random() - 0.5) * 100;
+                positions[i + 2] = (Math.random() - 0.5) * 100;
+
+                // Gold, pink, and white colors
+                const colorChoice = Math.random();
+                if (colorChoice < 0.4) {
+                    colors[i] = 212 / 255; // Gold
+                    colors[i + 1] = 175 / 255;
+                    colors[i + 2] = 55 / 255;
+                } else if (colorChoice < 0.7) {
+                    colors[i] = 255 / 255; // Pink
+                    colors[i + 1] = 105 / 255;
+                    colors[i + 2] = 180 / 255;
+                } else {
+                    colors[i] = 147 / 255; // Purple
+                    colors[i + 1] = 112 / 255;
+                    colors[i + 2] = 219 / 255;
+                }
+            }
+
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.15,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particleSystem = new THREE.Points(particles, particleMaterial);
+            scene.add(particleSystem);
+
+            camera.position.z = 5;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                particleSystem.rotation.x += 0.0002;
+                particleSystem.rotation.y += 0.0003;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Flower Rain Effect
+        function initFlowerRain() {
+            const flowerRain = document.getElementById('flowerRain');
+            const flowers = ['🌸', '🌺', '🌼', '🌷', '🌹', '💐', '🌸', '🌺'];
+
+            function createFlower() {
+                const flower = document.createElement('div');
+                flower.className = 'falling-flower';
+                flower.innerHTML = flowers[Math.floor(Math.random() * flowers.length)];
+
+                const size = Math.random() * 30 + 20;
+                flower.style.fontSize = `${size}px`;
+                flower.style.left = `${Math.random() * 100}%`;
+                flower.style.opacity = Math.random() * 0.6 + 0.3;
+
+                const duration = Math.random() * 10 + 10;
+                flower.style.animation = `fall ${duration}s linear forwards`;
+
+                flowerRain.appendChild(flower);
+
+                // Remove flower after animation completes
+                setTimeout(() => {
+                    if (flower.parentNode) {
+                        flower.parentNode.removeChild(flower);
+                    }
+                }, duration * 1000);
+            }
+
+            // Create initial flowers
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => createFlower(), Math.random() * 5000);
+            }
+
+            // Continue creating flowers
+            setInterval(() => {
+                if (flowerRain.children.length < 50) {
+                    createFlower();
+                }
+            }, 300);
+        }
+
+        // Floating Particles
+        function initFloatingParticles() {
+            const container = document.getElementById('particlesContainer');
+            const particleCount = 100;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 6 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.opacity = Math.random() * 0.4 + 0.1;
+                particle.style.animation = `float ${Math.random() * 20 + 10}s infinite ease-in-out`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+
+                container.appendChild(particle);
+            }
+        }
+
+        function initAnimations() {
+            // Initialize GSAP animations
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero section animations
+            const tlHero = gsap.timeline();
+            tlHero.fromTo('#groomName',
+                { opacity: 0, y: 100 },
+                { opacity: 1, y: 0, duration: 1.5, ease: "power3.out" }
+            )
+                .fromTo('.ampersand',
+                    { opacity: 0, scale: 0 },
+                    { opacity: 1, scale: 1, duration: 1, ease: "back.out(1.7)" },
+                    "-=0.7"
+                )
+                .fromTo('#brideName',
+                    { opacity: 0, y: 100 },
+                    { opacity: 1, y: 0, duration: 1.5, ease: "power3.out" },
+                    "-=0.7"
+                )
+                .fromTo('.subtitle',
+                    { opacity: 0, y: 50 },
+                    { opacity: 0.9, y: 0, duration: 1 },
+                    "-=0.5"
+                );
+
+            // Card animations on scroll
+            gsap.utils.toArray('.family-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        end: "top 50%",
+                        toggleActions: "play none none none",
+                        markers: false
+                    },
+                    duration: 1,
+                    y: 80,
+                    opacity: 0,
+                    rotationX: -10,
+                    delay: i * 0.2,
+                    ease: "power3.out"
+                });
+            });
+
+            // Couple section animations
+            gsap.from('.couple-message', {
+                scrollTrigger: {
+                    trigger: '#couple',
+                    start: "top 85%",
+                    end: "top 50%",
+                    toggleActions: "play none none none"
+                },
+                duration: 1.2,
+                scale: 0.5,
+                opacity: 0,
+                ease: "back.out(1.7)"
+            });
+
+            gsap.from('.couple-avatar', {
+                scrollTrigger: {
+                    trigger: '#couple',
+                    start: "top 75%",
+                    end: "top 40%",
+                    toggleActions: "play none none none"
+                },
+                duration: 1,
+                scale: 0,
+                opacity: 0,
+                stagger: 0.3,
+                ease: "back.out(1.7)"
+            });
+
+            // Detail cards animation
+            gsap.utils.toArray('.detail-card').forEach((card, i) => {
+                gsap.from(card, {
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 85%",
+                        end: "top 50%",
+                        toggleActions: "play none none none"
+                    },
+                    duration: 0.8,
+                    y: 50,
+                    opacity: 0,
+                    delay: i * 0.15,
+                    ease: "power3.out"
+                });
+            });
+
+            // Add scroll indicator animation
+            gsap.to('.scroll-indicator', {
+                y: -15,
+                duration: 1.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power1.inOut"
+            });
+        }
+
+        function initMusicPlayer() {
+            const audio = document.getElementById('weddingMusic');
+            const playBtn = document.getElementById('playBtn');
+
+            audio.volume = 0.25;
+
+            playBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    playBtn.style.background = 'linear-gradient(135deg, var(--rose-gold), var(--flower-pink))';
+                } else {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    playBtn.style.background = 'var(--gradient-gold)';
+                }
+            });
+
+            // Auto-play on first user interaction
+            document.addEventListener('click', function initAudio() {
+                audio.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    playBtn.style.background = 'linear-gradient(135deg, var(--rose-gold), var(--flower-pink))';
+                }).catch(e => {
+                    // Autoplay prevented
+                });
+                document.removeEventListener('click', initAudio);
+            }, { once: true });
+        }
+
+        function initNavigation() {
+            const navDots = document.querySelectorAll('.nav-dot');
+            const sections = ['hero', 'groomFamily', 'brideFamily', 'couple', 'details'];
+
+            navDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    const targetSection = document.getElementById(sections[index]);
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
                     });
                 });
             });
 
-            // Add subtle animation to wedding title
-            const weddingTitle = document.querySelector('.wedding-title');
-            setTimeout(() => {
-                weddingTitle.style.transform = 'scale(1.05)';
-                weddingTitle.style.transition = 'transform 0.5s ease';
+            // Update active dot on scroll
+            window.addEventListener('scroll', () => {
+                const scrollPos = window.scrollY + 100;
 
-                setTimeout(() => {
-                    weddingTitle.style.transform = 'scale(1)';
-                }, 300);
-            }, 1000);
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function () {
-            // Update floral background on resize
-            const floralBg = document.getElementById('floralBackground');
-            floralBg.innerHTML = '';
-            createFloralBackground();
-        });
-
-        // Print-friendly function
-        function printCard() {
-            window.print();
+                sections.forEach((sectionId, index) => {
+                    const section = document.getElementById(sectionId);
+                    if (section.offsetTop <= scrollPos &&
+                        section.offsetTop + section.offsetHeight > scrollPos) {
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        navDots[index].classList.add('active');
+                    }
+                });
+            });
         }
 
-        // Add print button event listener (optional - can add a print button)
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey && e.key === 'p') {
-                e.preventDefault();
-                printCard();
-            }
+        // Handle window resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                ScrollTrigger.refresh();
+            }, 250);
         });
+
+        // Touch optimization for mobile
+        if ('ontouchstart' in window) {
+            document.documentElement.style.touchAction = 'manipulation';
+
+            // Improve touch feedback
+            document.querySelectorAll('.family-card, .detail-card, .couple-avatar').forEach(element => {
+                element.addEventListener('touchstart', function () {
+                    this.style.transform = 'scale(0.98)';
+                });
+
+                element.addEventListener('touchend', function () {
+                    this.style.transform = '';
+                });
+            });
+        }
     </script>
 </body>
 
