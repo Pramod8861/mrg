@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Bhabani Sankar ❤️ Tulasi - The Sacred Union</title>
+    <!-- Meta tags for SEO & Social Sharing -->
+    <meta name="description"
+        content="Join us in celebrating the sacred union of Bhabani Sankar Pattnaik and Tulasi Mohanty">
+    <meta property="og:title" content="Bhabani Sankar & Tulasi - Wedding Invitation">
+    <meta property="og:image"
+        content="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200">
+    <meta property="og:description" content="With the blessings of their families">
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Dancing+Script:wght@400;700&family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Lottie Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <!-- Three.js for 3D elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --gold-light: #F4E4A6;
+            --rose-gold: #B76E79;
+            --soft-rose: #FFE6E9;
+            --deep-burgundy: #800020;
+            --soft-cream: #FFF8F0;
+            --dark-charcoal: #2C2C2C;
+            --light-charcoal: #4A4A4A;
+            --transition-slow: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            --transition-fast: all 0.3s ease;
+            --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --shadow-hard: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #F4E4A6 100%);
+            --gradient-rose: linear-gradient(135deg, #FFE6E9 0%, #FFF8F0 50%, #FFFFFF 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--soft-cream);
+            color: var(--dark-charcoal);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--soft-cream);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease;
+        }
+
+        .loading-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 8px solid transparent;
+            border-top: 8px solid var(--gold-primary);
+            border-right: 8px solid var(--rose-gold);
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--dark-charcoal);
+            letter-spacing: 4px;
+            opacity: 0.7;
+        }
+
+        /* Floating Navigation */
+        .floating-nav {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px 10px;
+            border-radius: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .nav-dot.active {
+            background: var(--gold-primary);
+            transform: scale(1.3);
+        }
+
+        .nav-dot:hover::after {
+            content: attr(data-scene);
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark-charcoal);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* 3D Background Canvas */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero Section with Parallax */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 100px 20px;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(255, 248, 240, 0.9), rgba(255, 248, 240, 0.7)),
+                url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+        }
+
+        .couple-names {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .couple-names span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .ampersand {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: var(--rose-gold);
+            margin: 0 20px;
+            display: inline-block;
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--light-charcoal);
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--gold-primary);
+            font-size: 2rem;
+        }
+
+        /* Scene Sections */
+        .scene {
+            min-height: 100vh;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .scene.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scene-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+            color: var(--deep-burgundy);
+        }
+
+        .scene-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gradient-gold);
+        }
+
+        /* Family Cards with 3D Flip */
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .family-card {
+            perspective: 1000px;
+            height: 450px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .family-card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .card-front {
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, white 0%, var(--soft-cream) 100%);
+        }
+
+        .card-back {
+            background: var(--dark-charcoal);
+            color: white;
+            transform: rotateY(180deg);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .parent-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .parent-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--dark-charcoal);
+        }
+
+        .parent-role {
+            font-size: 1.1rem;
+            color: var(--light-charcoal);
+            margin-bottom: 20px;
+        }
+
+        .member-highlight {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--deep-burgundy);
+            padding: 20px 0;
+            border-top: 2px solid var(--gold-light);
+            border-bottom: 2px solid var(--gold-light);
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Couple Animation Scene */
+        .couple-scene {
+            position: relative;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 100px 0;
+        }
+
+        .floating-character {
+            position: absolute;
+            width: 300px;
+            height: 500px;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.2));
+        }
+
+        .groom-char {
+            left: 20%;
+            transform: translateX(-50%);
+        }
+
+        .bride-char {
+            right: 20%;
+            transform: translateX(50%);
+        }
+
+        .heart-bridge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .heart {
+            font-size: 2.5rem;
+            color: var(--rose-gold);
+            opacity: 0;
+            animation: heartFloat 3s infinite;
+        }
+
+        /* Wedding Details with Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-gold);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 60px 0;
+            width: 45%;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 55%;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        /* Reception Scene */
+        .reception-scene {
+            background: linear-gradient(rgba(255, 248, 240, 0.9), rgba(255, 248, 240, 0.9)),
+                url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            border-radius: 30px;
+            padding: 80px 40px;
+            margin: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reception-scene::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23d4af37' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        /* Countdown Timer */
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: var(--shadow-hard);
+            border: 2px solid var(--gold-light);
+        }
+
+        .countdown-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: var(--deep-burgundy);
+            margin-bottom: 30px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 120px;
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: var(--light-charcoal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Interactive RSVP */
+        .rsvp-section {
+            background: white;
+            border-radius: 30px;
+            padding: 80px 40px;
+            margin: 100px 0;
+            box-shadow: var(--shadow-hard);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            gap: 25px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 20px;
+            border: 2px solid var(--gold-light);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            background: transparent;
+            transition: var(--transition-fast);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 10px;
+            color: var(--light-charcoal);
+            transition: var(--transition-fast);
+            pointer-events: none;
+        }
+
+        .form-input:focus+.form-label,
+        .form-input:not(:placeholder-shown)+.form-label {
+            top: 0;
+            font-size: 0.9rem;
+            color: var(--gold-primary);
+        }
+
+        .submit-btn {
+            background: var(--gradient-gold);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: var(--shadow-hard);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--gold-light);
+        }
+
+        .music-control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .music-control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .music-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .music-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-charcoal);
+        }
+
+        .music-artist {
+            font-size: 0.8rem;
+            color: var(--light-charcoal);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-charcoal);
+            color: white;
+            padding: 80px 20px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient-gold);
+        }
+
+        .final-message {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        @keyframes heartFloat {
+
+            0%,
+            100% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .floating-nav {
+                right: 15px;
+            }
+
+            .couple-scene {
+                height: 60vh;
+            }
+
+            .floating-character {
+                width: 250px;
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .scene {
+                padding: 80px 20px;
+            }
+
+            .family-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                width: calc(100% - 80px);
+                left: 80px !important;
+            }
+
+            .timeline-icon {
+                left: -25px;
+                transform: translateX(0);
+            }
+
+            .floating-character {
+                width: 200px;
+                height: 350px;
+            }
+
+            .groom-char {
+                left: 15%;
+            }
+
+            .bride-char {
+                right: 15%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 20px;
+            }
+
+            .floating-nav {
+                display: none;
+            }
+
+            .music-player {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                justify-content: center;
+            }
+
+            .couple-scene {
+                flex-direction: column;
+                height: auto;
+                margin: 50px 0;
+            }
+
+            .floating-character {
+                position: relative;
+                left: auto !important;
+                right: auto !important;
+                transform: none !important;
+                margin: 20px 0;
+            }
+
+            .heart-bridge {
+                position: relative;
+                width: 100%;
+                height: auto;
+                transform: none;
+                left: auto;
+                top: auto;
+                justify-content: center;
+                margin: 20px 0;
+            }
+
+            .countdown-item {
+                min-width: 80px;
+            }
+
+            .countdown-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            html {
+                font-size: 14px;
+            }
+
+            .scene {
+                padding: 60px 15px;
+            }
+
+            .family-card {
+                height: 400px;
+            }
+
+            .parent-icon {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+
+            .countdown {
+                gap: 10px;
+            }
+
+            .countdown-item {
+                min-width: 70px;
+            }
+
+            .rsvp-section {
+                padding: 40px 20px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+
+            .floating-nav,
+            .music-player,
+            .scroll-indicator {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .scene {
+                opacity: 1;
+                transform: none;
+                min-height: auto;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-ring"></div>
+        <div class="loading-text">LOADING BLESSINGS...</div>
+    </div>
+
+    <!-- 3D Background Canvas -->
+    <canvas id="three-bg"></canvas>
+
+    <!-- Floating Navigation -->
+    <nav class="floating-nav" id="floatingNav">
+        <div class="nav-dot active" data-scene="Home" data-target="hero"></div>
+        <div class="nav-dot" data-scene="Groom's Family" data-target="scene1"></div>
+        <div class="nav-dot" data-scene="Bride's Family" data-target="scene2"></div>
+        <div class="nav-dot" data-scene="The Couple" data-target="scene3"></div>
+        <div class="nav-dot" data-scene="Ceremony" data-target="scene4"></div>
+        <div class="nav-dot" data-scene="Reception" data-target="scene5"></div>
+        <div class="nav-dot" data-scene="RSVP" data-target="scene6"></div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-background"></div>
+            <h1 class="couple-names" id="coupleNames">
+                <span id="groomName">Bhabani Sankar</span>
+                <span class="ampersand">&</span>
+                <span id="brideName">Tulasi</span>
+            </h1>
+            <p class="subtitle" id="subtitle">With the blessings of their families</p>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Scene 1: Groom's Family -->
+        <section class="scene" id="scene1">
+            <h2 class="scene-title">Groom's Family</h2>
+            <div class="family-grid">
+                <div class="family-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="parent-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3 class="parent-name">Mr. Chhitaranjan Pattnaik</h3>
+                            <p class="parent-role">Father of the Groom</p>
+                        </div>
+                        <div class="card-back">
+                            <h3 class="parent-name" style="color: white;">Blessings & Joy</h3>
+                            <p style="margin: 20px 0; line-height: 1.6;">With immense happiness and pride, we present
+                                our elder son</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="family-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="parent-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="parent-name">Mrs. Minati Pattnaik</h3>
+                            <p class="parent-role">Mother of the Groom</p>
+                        </div>
+                        <div class="card-back">
+                            <h3 class="parent-name" style="color: white;">Love & Blessings</h3>
+                            <p style="margin: 20px 0; line-height: 1.6;">Our hearts overflow with joy as we celebrate
+                                this union</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="member-highlight" id="groomHighlight">BHABANI SANKAR PATTNAIK</div>
+        </section>
+
+        <!-- Scene 2: Bride's Family -->
+        <section class="scene" id="scene2">
+            <h2 class="scene-title">Bride's Family</h2>
+            <div class="family-grid">
+                <div class="family-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="parent-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <h3 class="parent-name">Mr. Dandapani Mohanty</h3>
+                            <p class="parent-role">Father of the Bride</p>
+                        </div>
+                        <div class="card-back">
+                            <h3 class="parent-name" style="color: white;">Blessings & Protection</h3>
+                            <p style="margin: 20px 0; line-height: 1.6;">With love and pride, we present our beloved
+                                daughter</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="family-card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="parent-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h3 class="parent-name">Mrs. Golapi Mohanty</h3>
+                            <p class="parent-role">Mother of the Bride</p>
+                        </div>
+                        <div class="card-back">
+                            <h3 class="parent-name" style="color: white;">Love & Grace</h3>
+                            <p style="margin: 20px 0; line-height: 1.6;">Our precious jewel, embarking on a beautiful
+                                journey</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="member-highlight" id="brideHighlight">TULASI MOHANTY</div>
+        </section>
+
+        <!-- Scene 3: Couple Animation -->
+        <section class="scene" id="scene3">
+            <h2 class="scene-title">Two Hearts ❤️ One Forever</h2>
+            <div class="couple-scene">
+                <div class="floating-character groom-char" id="groomChar">
+                    <!-- Lottie animation will be loaded here -->
+                </div>
+                <div class="heart-bridge" id="heartBridge">
+                    <div class="heart" style="animation-delay: 0s">❤️</div>
+                    <div class="heart" style="animation-delay: 0.5s">❤️</div>
+                    <div class="heart" style="animation-delay: 1s">❤️</div>
+                    <div class="heart" style="animation-delay: 1.5s">❤️</div>
+                    <div class="heart" style="animation-delay: 2s">❤️</div>
+                </div>
+                <div class="floating-character bride-char" id="brideChar">
+                    <!-- Lottie animation will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-container">
+            <h3 class="countdown-title">Counting Down to the Big Day</h3>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scene 4: Wedding Details -->
+        <section class="scene" id="scene4">
+            <h2 class="scene-title">Marriage Ceremony</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 style="color: var(--deep-burgundy); margin-bottom: 15px;">Date & Time</h3>
+                    <p style="font-size: 1.3rem; color: var(--gold-primary); margin-bottom: 10px;">
+                        20 February 2026
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--light-charcoal);">
+                        12 PM onwards
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3 style="color: var(--deep-burgundy); margin-bottom: 15px;">Venue</h3>
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">
+                        Chandapur near Kanisi Hatta
+                    </p>
+                    <p style="font-size: 1.1rem; color: var(--light-charcoal);">
+                        Berhampur, Odisha
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <h3 style="color: var(--deep-burgundy); margin-bottom: 15px;">Setting</h3>
+                    <p style="font-size: 1.1rem; line-height: 1.6;">
+                        Traditional Odisha Mandap decorated with marigolds, fairy lights, and traditional motifs under
+                        the open sky.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 5: Reception -->
+        <section class="reception-scene" id="scene5">
+            <h2 class="scene-title">Reception Celebration</h2>
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <div style="background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 20px; margin: 40px 0;">
+                    <h3 style="color: var(--deep-burgundy); font-size: 2rem; margin-bottom: 20px;">
+                        22 February 2026
+                    </h3>
+                    <p style="font-size: 1.5rem; color: var(--gold-primary); margin-bottom: 15px;">
+                        1 PM onwards
+                    </p>
+                    <p style="font-size: 1.2rem; color: var(--light-charcoal); line-height: 1.6;">
+                        Join us for an evening of celebration under the stars with fairy lights,
+                        traditional music, dance, and a grand feast.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="final-message">
+                Your presence will make our celebration complete.<br>
+                We look forward to welcoming you with open hearts.
+            </div>
+
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px;">
+                <p style="font-size: 0.9rem; opacity: 0.7;">
+                    Made with ❤️ for Bhabani Sankar & Tulasi
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Wedding Music -->
+    <audio id="weddingMusic" loop preload="auto">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-wedding-day-560.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-august-love-671.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Wait for everything to load
+        window.addEventListener('load', function () {
+            const loadingScreen = document.getElementById('loadingScreen');
+
+            // Hide loading screen with animation
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    initAllAnimations();
+                }, 1000);
+            }, 1500);
+        });
+
+        // Initialize GSAP animations
+        function initAllAnimations() {
+            // Register GSAP plugins
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            // Hero section animations
+            const tlHero = gsap.timeline();
+            tlHero.fromTo('#groomName',
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+            )
+                .fromTo('.ampersand',
+                    { opacity: 0, scale: 0 },
+                    { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" },
+                    "-=0.5"
+                )
+                .fromTo('#brideName',
+                    { opacity: 0, y: 50 },
+                    { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
+                    "-=0.5"
+                )
+                .fromTo('#subtitle',
+                    { opacity: 0, y: 30 },
+                    { opacity: 1, y: 0, duration: 0.8 },
+                    "-=0.3"
+                );
+
+            // Initialize scene animations with ScrollTrigger
+            const scenes = gsap.utils.toArray('.scene');
+            scenes.forEach((scene, i) => {
+                gsap.fromTo(scene,
+                    { opacity: 0, y: 100 },
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: scene,
+                            start: "top 80%",
+                            end: "top 20%",
+                            toggleActions: "play none none reverse",
+                            markers: false
+                        }
+                    }
+                );
+            });
+
+            // Animate family cards on hover
+            document.querySelectorAll('.family-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    gsap.to(card, {
+                        scale: 1.05,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        scale: 1,
+                        duration: 0.3,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            // Floating navigation sync with scroll
+            const navDots = document.querySelectorAll('.nav-dot');
+            scenes.forEach((scene, i) => {
+                ScrollTrigger.create({
+                    trigger: scene,
+                    start: "top center",
+                    end: "bottom center",
+                    onEnter: () => updateNavDots(i),
+                    onEnterBack: () => updateNavDots(i),
+                    onLeave: () => { },
+                    onLeaveBack: () => { }
+                });
+            });
+
+            function updateNavDots(index) {
+                navDots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            // Navigation dot click functionality
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const target = dot.getAttribute('data-target');
+                    const targetElement = document.getElementById(target);
+
+                    gsap.to(window, {
+                        duration: 1.5,
+                        scrollTo: {
+                            y: targetElement,
+                            offsetY: 80
+                        },
+                        ease: "power3.inOut"
+                    });
+                });
+            });
+
+            // Initialize 3D background
+            init3DBackground();
+
+            // Initialize countdown
+            initCountdown();
+
+            // Initialize music player
+            initMusicPlayer();
+
+            // Initialize RSVP form
+            initRSVPForm();
+
+            // Create floating elements
+            createFloatingElements();
+        }
+
+        // 3D Background with Three.js
+        function init3DBackground() {
+            const canvas = document.getElementById('three-bg');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Create floating particles
+            const particleCount = 1500;
+            const particles = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 50;
+                positions[i + 1] = (Math.random() - 0.5) * 50;
+                positions[i + 2] = (Math.random() - 0.5) * 50;
+
+                colors[i] = 212 / 255; // Gold color
+                colors[i + 1] = 175 / 255;
+                colors[i + 2] = 55 / 255;
+            }
+
+            particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particleMaterial = new THREE.PointsMaterial({
+                size: 0.1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.6
+            });
+
+            const particleSystem = new THREE.Points(particles, particleMaterial);
+            scene.add(particleSystem);
+
+            camera.position.z = 5;
+
+            // Mouse move effect
+            let mouseX = 0, mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                particleSystem.rotation.x += 0.0005;
+                particleSystem.rotation.y += 0.0005;
+
+                camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+                camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Countdown Timer
+        function initCountdown() {
+            const weddingDate = new Date('February 20, 2026 12:00:00').getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+                // Animate number changes
+                if (seconds === 59) {
+                    animateCountdownChange();
+                }
+            }
+
+            function animateCountdownChange() {
+                gsap.from('.countdown-number', {
+                    y: -20,
+                    opacity: 0,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "back.out(1.7)"
+                });
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Music Player
+        function initMusicPlayer() {
+            const audio = document.getElementById('weddingMusic');
+            const playBtn = document.getElementById('playBtn');
+            const volumeSlider = document.getElementById('volumeSlider');
+
+            audio.volume = volumeSlider.value / 100;
+
+            playBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    playBtn.style.background = 'var(--gradient-gold)';
+                } else {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    playBtn.style.background = 'var(--gradient-gold)';
+                }
+            });
+
+            volumeSlider.addEventListener('input', () => {
+                audio.volume = volumeSlider.value / 100;
+            });
+
+            // Auto-play with user interaction
+            document.addEventListener('click', function initAudio() {
+                audio.play().then(() => {
+                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }).catch(e => {
+                    console.log("Autoplay prevented - user interaction required");
+                });
+                document.removeEventListener('click', initAudio);
+            });
+        }
+
+        // RSVP Form
+        function initRSVPForm() {
+            const form = document.getElementById('rsvpForm');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    attendance: document.getElementById('attendance').value,
+                    guests: document.getElementById('guests').value
+                };
+
+                // Animate form submission
+                gsap.to('.submit-btn', {
+                    scale: 0.9,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1,
+                    onComplete: () => {
+                        // Show success message
+                        const successMsg = document.createElement('div');
+                        successMsg.innerHTML = `
+                            <div style="
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                background: white;
+                                padding: 40px;
+                                border-radius: 20px;
+                                text-align: center;
+                                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                                z-index: 10000;
+                                max-width: 500px;
+                                width: 90%;
+                            ">
+                                <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--gold-primary); margin-bottom: 20px;"></i>
+                                <h3 style="color: var(--deep-burgundy); margin-bottom: 15px;">Thank You!</h3>
+                                <p style="color: var(--light-charcoal); margin-bottom: 25px;">
+                                    Your blessings have been received. We look forward to celebrating with you!
+                                </p>
+                                <button onclick="this.parentElement.remove()" style="
+                                    background: var(--gradient-gold);
+                                    color: white;
+                                    border: none;
+                                    padding: 12px 30px;
+                                    border-radius: 50px;
+                                    cursor: pointer;
+                                    font-family: 'Cinzel', serif;
+                                ">
+                                    Continue Celebration
+                                </button>
+                            </div>
+                        `;
+                        document.body.appendChild(successMsg);
+
+                        // Reset form
+                        form.reset();
+                    }
+                });
+            });
+        }
+
+        // Create floating decorative elements
+        function createFloatingElements() {
+            const elements = ['❀', '✨', '❤️', '🌸', '💫', '🎉'];
+            const container = document.body;
+
+            for (let i = 0; i < 20; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+
+                element.style.left = Math.random() * 100 + '%';
+                element.style.top = Math.random() * 100 + '%';
+                element.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                element.style.animation = `float ${Math.random() * 10 + 10}s infinite ease-in-out`;
+                element.style.animationDelay = Math.random() * 5 + 's';
+
+                container.appendChild(element);
+            }
+        }
+
+        // Handle mobile-specific interactions
+        if ('ontouchstart' in window) {
+            // Add touch-specific optimizations
+            document.addEventListener('touchstart', function () { }, { passive: true });
+
+            // Improve scrolling performance
+            document.documentElement.style.touchAction = 'manipulation';
+        }
+
+        // Service Worker for offline capability (optional)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
